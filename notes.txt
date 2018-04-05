@@ -1,0 +1,23 @@
+= News Feed =
+* Uses navigation drawers
+* Drawers contain sections
+** News
+** Opinion
+** Sport
+** Culture
+** Lifestyle
+* Allow for 
+** Search
+** Date range
+* Clicking on article should redirect to website
+
+= Reference =
+http://open-platform.theguardian.com/documentation/
+
+https://content.guardianapis.com/news?api-key=f5f4a4ec-6689-4301-b732-914528302c59
+https://content.guardianapis.com/opinion?api-key=f5f4a4ec-6689-4301-b732-914528302c59
+https://content.guardianapis.com/sport?api-key=f5f4a4ec-6689-4301-b732-914528302c59
+https://content.guardianapis.com/culture?api-key=f5f4a4ec-6689-4301-b732-914528302c59
+https://content.guardianapis.com/lifeandstyle?api-key=f5f4a4ec-6689-4301-b732-914528302c59
+
+http://content.guardianapis.com/search?q=debates&api-key=f5f4a4ec-6689-4301-b732-914528302c59

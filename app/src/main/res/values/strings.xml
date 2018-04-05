@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">News Feed</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="news">News</string>
+    <string name="opinion">Opinion</string>
+    <string name="sport">Sport</string>
+    <string name="culture">Culture</string>
+    <string name="life_and_style">Life and Style</string>
+</resources>
