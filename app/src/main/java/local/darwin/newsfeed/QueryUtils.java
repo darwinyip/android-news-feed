@@ -111,7 +111,7 @@ public final class QueryUtils {
         if (TextUtils.isEmpty(ArticleJSON)) {
             return null;
         }
-
+        Log.d(LOG_TAG, ArticleJSON);
         // Create an empty ArrayList that we can start adding Articles to
         List<Article> Articles = new ArrayList<>();
 
@@ -128,8 +128,19 @@ public final class QueryUtils {
                 Date webPublicationDate = createDate(c.getString("webPublicationDate"));
                 String webTitle = c.getString("webTitle").trim();
                 Uri webUrl = Uri.parse(c.getString("webUrl"));
+                String authors = "";
+                if (c.has("tags")) {
+                    JSONArray tags = c.getJSONArray("tags");
+                    List<String> authorList = new ArrayList<>();
+                    for (int j = 0; j < tags.length(); j++) {
+                        String author = tags.getJSONObject(j).getString("webTitle");
+                        authorList.add(author);
+                    }
+                    authors = String.join(", ", authorList);
+                    Log.d(LOG_TAG, authors);
 
-                Articles.add(new Article(id, webPublicationDate, webTitle, webUrl));
+                    Articles.add(new Article(id, webPublicationDate, webTitle, webUrl, authors));
+                }
             }
 
         } catch (JSONException e) {

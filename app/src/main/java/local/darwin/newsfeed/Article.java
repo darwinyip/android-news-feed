@@ -13,12 +13,14 @@ class Article {
     private Date webPublicationDate;
     private String webTitle;
     private Uri webUrl;
+    private String authors;
 
-    public Article(String id, Date webPublicationDate, String webTitle, Uri webUrl) {
+    public Article(String id, Date webPublicationDate, String webTitle, Uri webUrl, String authors) {
         this.id = id;
         this.webPublicationDate = webPublicationDate;
         this.webTitle = webTitle;
         this.webUrl = webUrl;
+        this.authors = authors;
     }
 
     public String getId() {
@@ -35,5 +37,9 @@ class Article {
 
     public Uri getWebUrl() {
         return webUrl;
+    }
+
+    public String getAuthors() {
+        return authors;
     }
 }

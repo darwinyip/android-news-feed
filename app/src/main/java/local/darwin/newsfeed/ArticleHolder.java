@@ -15,12 +15,14 @@ class ArticleHolder extends RecyclerView.ViewHolder {
 
     private TextView webTitle;
     private TextView webPublicationDate;
+    private TextView authors;
     private Uri webUrl;
 
     ArticleHolder(final View itemView) {
         super(itemView);
         webTitle = itemView.findViewById(R.id.web_title);
         webPublicationDate = itemView.findViewById(R.id.web_published_date);
+        authors = itemView.findViewById(R.id.authors);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -34,6 +36,7 @@ class ArticleHolder extends RecyclerView.ViewHolder {
         webTitle.setText(article.getWebTitle());
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         webPublicationDate.setText(dateFormat.format(article.getWebPublicationDate()));
+        authors.setText(article.getAuthors());
         webUrl = article.getWebUrl();
     }
 }
