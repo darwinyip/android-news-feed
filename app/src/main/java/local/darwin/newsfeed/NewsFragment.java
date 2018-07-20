@@ -4,12 +4,16 @@ import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewsFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Article>> {
+
+    public static final String LOG_TAG = QueryUtils.class.getSimpleName();
 
     private static final String ARTICLE_URL = "https://content.guardianapis.com/news?api-key=f5f4a4ec-6689-4301-b732-914528302c59&show-tags=contributor";
     private ArticleAdapter articleAdapter;
@@ -50,7 +56,25 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public Loader<List<Article>> onCreateLoader(int i, Bundle bundle) {
-        return new ArticleLoader(getContext(), ARTICLE_URL);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        String fromDate = sharedPreferences.getString(getString(R.string.settings_from_date_key), null);
+        String orderBy = sharedPreferences.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default));
+
+        Uri baseUri = Uri.parse(ARTICLE_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        if (!fromDate.isEmpty()) {
+            uriBuilder.appendQueryParameter("from-date", fromDate);
+        }
+
+        uriBuilder.appendQueryParameter("order-by", orderBy);
+
+        String web = uriBuilder.toString();
+        Log.d(LOG_TAG, web);
+        return new ArticleLoader(getContext(), web);
     }
 
     @Override
