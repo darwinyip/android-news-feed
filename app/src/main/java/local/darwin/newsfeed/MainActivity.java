@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        getFragmentManager().beginTransaction().replace(R.id.content_frame, new TheGuardianFragment()).addToBackStack(null).commit();
+        getFragmentManager().beginTransaction().replace(R.id.content_frame, new SectionFragment()).addToBackStack(null).commit();
     }
 
     @Override
@@ -77,28 +77,36 @@ public class MainActivity extends AppCompatActivity
         Log.d(LOG_TAG, "onNavigationItemSelected");
         // Handle navigation view item clicks here.
         Fragment fragment;
+        Bundle args = new Bundle();
+
         int id = item.getItemId();
 
         if (id == R.id.nav_news) {
-            fragment = new NewsFragment();
+            args.putInt("sectionId", 1);
+            args.putString("sectionName", "news");
             this.setTitle("News");
         } else if (id == R.id.nav_opinion) {
-            fragment = new OpinionFragment();
+            args.putInt("sectionId", 2);
+            args.putString("sectionName", "commentisfree");
             this.setTitle("Opinion");
         } else if (id == R.id.nav_sport) {
-            fragment = new SportFragment();
+            args.putInt("sectionId", 3);
+            args.putString("sectionName", "sport");
             this.setTitle("Sports");
-        } else if (id == R.id.nav_culture) {
-            fragment = new CultureFragment();
-            this.setTitle("Culture");
         } else if (id == R.id.nav_lifestyle) {
-            fragment = new LifeStyleFragment();
-            this.setTitle("Life Style");
+            args.putInt("sectionId", 4);
+            args.putString("sectionName", "lifeandstyle");
+            this.setTitle("Life and Style");
+        } else if (id == R.id.nav_culture) {
+            args.putInt("sectionId", 5);
+            args.putString("sectionName", "culture");
+            this.setTitle("Culture");
         } else {
-            fragment = new TheGuardianFragment();
-
+            this.setTitle("The Guardian");
         }
 
+        fragment = new SectionFragment();
+        fragment.setArguments(args);
         getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

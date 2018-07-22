@@ -124,11 +124,11 @@ public final class QueryUtils {
             JSONArray results = jsonObject.getJSONObject("response").getJSONArray("results");
             for (int i = 0; i < results.length(); i++) {
                 JSONObject c = results.getJSONObject(i);
-                String id = c.getString("id");
+                String sectionName = c.getString("sectionName");
                 Date webPublicationDate = createDate(c.getString("webPublicationDate"));
                 String webTitle = c.getString("webTitle").trim();
                 Uri webUrl = Uri.parse(c.getString("webUrl"));
-                String authors = "";
+                String authors;
                 if (c.has("tags")) {
                     JSONArray tags = c.getJSONArray("tags");
                     List<String> authorList = new ArrayList<>();
@@ -139,7 +139,7 @@ public final class QueryUtils {
                     authors = String.join(", ", authorList);
                     Log.d(LOG_TAG, authors);
 
-                    Articles.add(new Article(id, webPublicationDate, webTitle, webUrl, authors));
+                    Articles.add(new Article(sectionName, webPublicationDate, webTitle, webUrl, authors));
                 }
             }
 

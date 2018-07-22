@@ -23,17 +23,25 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LifeStyleFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Article>> {
+public class SectionFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Article>> {
 
     public static final String LOG_TAG = QueryUtils.class.getSimpleName();
 
-    private static final String ARTICLE_URL = "https://content.guardianapis.com/lifeandstyle?api-key=f5f4a4ec-6689-4301-b732-914528302c59&show-tags=contributor";
+    private static final String ARTICLE_URL = "https://content.guardianapis.com/%s?api-key=f5f4a4ec-6689-4301-b732-914528302c59&show-tags=contributor";
+    private String sectionName = "theguardian";
+    private int sectionId = 0;
     private ArticleAdapter articleAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+        Bundle args = getArguments();
+        if (args != null) {
+            sectionName = args.getString("sectionName", "theguardian");
+            sectionId = args.getInt("sectionId", 0);
+        }
 
         TextView emptyView = rootView.findViewById(R.id.empty_view);
         RecyclerView recyclerView = rootView.findViewById(R.id.fragment_container);
@@ -47,7 +55,7 @@ public class LifeStyleFragment extends Fragment implements LoaderManager.LoaderC
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (activeNetwork != null && activeNetwork.isConnectedOrConnecting()) {
             LoaderManager loaderManager = getLoaderManager();
-            loaderManager.initLoader(3, null, this);
+            loaderManager.initLoader(sectionId, null, this);
         } else {
             emptyView.setText(R.string.no_internet_connection);
         }
@@ -64,7 +72,7 @@ public class LifeStyleFragment extends Fragment implements LoaderManager.LoaderC
                 getString(R.string.settings_order_by_key),
                 getString(R.string.settings_order_by_default));
 
-        Uri baseUri = Uri.parse(ARTICLE_URL);
+        Uri baseUri = Uri.parse(String.format(ARTICLE_URL, sectionName));
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
         if (!TextUtils.isEmpty(fromDate)) {
